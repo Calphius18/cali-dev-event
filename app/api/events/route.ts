@@ -11,15 +11,8 @@ export async function POST(req: NextRequest) {
 
     let event;
 
-    try {
-      event = Object.fromEntries(formData.entries());
-      console.log("Event data received:", event);
-    } catch (error) {
-      return NextResponse.json(
-        { message: "Invalid JSON data format" },
-        { status: 400 }
-      );
-    }
+    const event = Object.fromEntries(formData.entries());
+    console.log("Event data received:", event);
 
     const file = formData.get("image") as File | null;
 
