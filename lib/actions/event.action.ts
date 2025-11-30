@@ -17,7 +17,7 @@ export const getSimilarEventsBySlug = async (slug: string): Promise<IEvent[]> =>
       tags: { $in: event.tags },
     }).lean();
 
-    return similarEvents as IEvent[];
+    return similarEvents as unknown as IEvent[];
   } catch (error) {
     console.error("Error fetching similar events:", error);
     return [];

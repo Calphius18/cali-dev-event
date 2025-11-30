@@ -9,8 +9,6 @@ export async function POST(req: NextRequest) {
 
     const formData = await req.formData();
 
-    let event;
-
     const event = Object.fromEntries(formData.entries());
     console.log("Event data received:", event);
 
@@ -76,4 +74,3 @@ export async function GET() {
     return NextResponse.json({ message: "Failed to fetch events", error }, { status: 500 });
   }
 }
-
