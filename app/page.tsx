@@ -2,7 +2,6 @@ import EventCard from "@/components/EventCard";
 import ExploreBtn from "@/components/ExploreBtn";
 import { IEvent } from "@/database";
 import { cacheLife } from "next/cache";
-import events from "@/lib/constants";
 
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
@@ -16,23 +15,23 @@ const Home = async () => {
   cacheLife("hours")
   let events: IEvent[] = [];
 
-  // try {
-  //   const res = await fetch(`${BASE_URL}/api/events`);
+  try {
+    const res = await fetch(`${BASE_URL}/api/events`);
 
-  //   if (!res.ok) {
-  //     console.error("Failed to fetch events:", res.status, res.statusText);
-  //   } else {
-  //     const data: unknown = await res.json();
+    if (!res.ok) {
+      console.error("Failed to fetch events:", res.status, res.statusText);
+    } else {
+      const data: unknown = await res.json();
 
-  //     if (Array.isArray((data as { events?: IEvent[] }).events)) {
-  //       events = (data as { events?: IEvent[] }).events ?? [];
-  //     } else {
-  //       console.error("Unexpected events payload shape", data);
-  //     }
-  //   }
-  // } catch (error) {
-  //   console.error("Error fetching events:", error);
-  // }
+      if (Array.isArray((data as { events?: IEvent[] }).events)) {
+        events = (data as { events?: IEvent[] }).events ?? [];
+      } else {
+        console.error("Unexpected events payload shape", data);
+      }
+    }
+  } catch (error) {
+    console.error("Error fetching events:", error);
+  }
 
   return (
     <section>
