@@ -13,10 +13,25 @@ if (!BASE_URL) {
 const Home = async () => {
   "use cache";
   cacheLife("hours")
-  
+  let events: IEvent[] = [];
 
- const response = await fetch(`${BASE_URL}/api/events`);
-    const { events } = await response.json();
+  try {
+    const res = await fetch(`${BASE_URL}/api/events`);
+
+    if (!res.ok) {
+      console.error("Failed to fetch events:", res.status, res.statusText);
+    } else {
+      const data: unknown = await res.json();
+
+      if (Array.isArray((data as { events?: IEvent[] }).events)) {
+        events = (data as { events?: IEvent[] }).events ?? [];
+      } else {
+        console.error("Unexpected events payload shape", data);
+      }
+    }
+  } catch (error) {
+    console.error("Error fetching events:", error);
+  }
 
   return (
     <section>
